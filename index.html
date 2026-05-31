@@ -4,6 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#071f45" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Cofre PRO" />
+  <link rel="manifest" href="manifest.json" />
   <title>Cofre Nacional PRO</title>
 
   <style>
@@ -23,6 +27,7 @@
       --cinza: #697386;
       --linha: #dce4ef;
       --verde: #13a05f;
+      --amarelo: #f59e0b;
       --card: rgba(255,255,255,.94);
       --sombra: 0 18px 50px rgba(7,31,69,.16);
       --raio: 26px;
@@ -188,6 +193,7 @@
         opacity: 0;
         transform: translateY(8px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -196,8 +202,7 @@
 
     .hero,
     .card,
-    .metricas article,
-    .aviso {
+    .metricas article {
       background: var(--card);
       border: 1px solid rgba(255,255,255,.75);
       box-shadow: var(--sombra);
@@ -205,15 +210,15 @@
     }
 
     .hero {
-      min-height: 218px;
-      padding: 20px;
+      min-height: 285px;
+      padding: 26px 20px;
       color: white;
       background:
         radial-gradient(circle at 100% 0%, rgba(255,255,255,.22), transparent 30%),
         linear-gradient(135deg, var(--vermelho), var(--vermelho2) 52%, #8a0007);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: grid;
+      place-items: center;
+      text-align: center;
       overflow: hidden;
       position: relative;
     }
@@ -221,55 +226,69 @@
     .hero::before {
       content: "";
       position: absolute;
-      width: 210px;
-      height: 210px;
+      width: 260px;
+      height: 260px;
       border-radius: 50%;
-      right: -92px;
-      bottom: -86px;
-      border: 28px solid rgba(255,255,255,.13);
+      right: -110px;
+      bottom: -110px;
+      border: 32px solid rgba(255,255,255,.13);
     }
 
-    .hero-texto {
-      max-width: 62%;
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      left: -80px;
+      top: -70px;
+      border: 24px solid rgba(255,255,255,.10);
+    }
+
+    .hero-conteudo {
       position: relative;
       z-index: 2;
+      width: 100%;
+      display: grid;
+      justify-items: center;
+      gap: 14px;
     }
 
     .hero h2 {
-      margin: 2px 0 8px;
-      font-size: clamp(36px, 11vw, 54px);
-      letter-spacing: -.07em;
+      margin: 0;
+      font-size: clamp(42px, 13vw, 68px);
+      letter-spacing: -.08em;
       line-height: .95;
     }
 
-    .hero p:last-child {
+    .hero p {
       margin: 0;
       font-weight: 950;
       font-size: 16px;
-      line-height: 1.25;
+      line-height: 1.3;
+      max-width: 310px;
     }
 
-    .botijao {
-      width: 108px;
+    .mini-botijao {
+      width: 104px;
       display: grid;
       justify-items: center;
-      position: relative;
-      z-index: 2;
+      margin: 6px 0;
     }
 
     .botijao-topo,
     .botijao-baixo {
-      width: 88px;
-      height: 24px;
+      width: 86px;
+      height: 22px;
       border-radius: 50%;
       background: rgba(255,255,255,.82);
       border: 4px solid rgba(255,255,255,.95);
     }
 
     .botijao-corpo {
-      width: 88px;
-      height: 132px;
-      margin: -12px 0;
+      width: 86px;
+      height: 126px;
+      margin: -11px 0;
       border: 4px solid rgba(255,255,255,.96);
       background: rgba(255,255,255,.2);
       overflow: hidden;
@@ -294,26 +313,9 @@
     .botijao-corpo span {
       z-index: 2;
       font-weight: 1000;
-      font-size: 24px;
+      font-size: 23px;
       color: white;
       text-shadow: 0 2px 10px rgba(0,0,0,.45);
-    }
-
-    .aviso {
-      margin: 14px 0;
-      padding: 13px 15px;
-      font-weight: 950;
-      color: var(--azul2);
-    }
-
-    .aviso.bom {
-      color: var(--verde);
-      background: #f1fff7;
-    }
-
-    .aviso.ruim {
-      color: var(--vermelho);
-      background: #fff4f4;
     }
 
     .metricas {
@@ -326,6 +328,7 @@
     .metricas article {
       padding: 16px;
       min-height: 100px;
+      text-align: center;
     }
 
     .metricas small {
@@ -389,38 +392,27 @@
       line-height: 1.45;
     }
 
-    .grafico {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      align-items: end;
-      min-height: 132px;
-      gap: 9px;
-    }
-
-    .dia-grafico {
-      display: grid;
-      align-items: end;
-      gap: 7px;
-      text-align: center;
-      color: var(--cinza);
-      font-size: 11px;
-      font-weight: 950;
-    }
-
-    .trilho {
-      height: 92px;
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 12px;
       border-radius: 999px;
-      background: #e0e9f6;
-      overflow: hidden;
-      display: flex;
-      align-items: end;
+      background: #eef3fa;
+      color: var(--azul2);
+      font-weight: 950;
+      font-size: 13px;
     }
 
-    .preenchimento {
-      width: 100%;
-      min-height: 5px;
-      background: linear-gradient(180deg, var(--vermelho), var(--azul2));
-      border-radius: inherit;
+    .pill.verde {
+      background: #effff6;
+      color: var(--verde);
+    }
+
+    .pill.vermelho {
+      background: #fff0f0;
+      color: var(--vermelho);
     }
 
     .botao-principal,
@@ -467,13 +459,6 @@
       margin: 14px 0;
       color: var(--azul);
       font-weight: 950;
-    }
-
-    .form em {
-      color: var(--cinza);
-      font-style: normal;
-      font-weight: 800;
-      font-size: 12px;
     }
 
     input,
@@ -527,40 +512,10 @@
       font-weight: 1000;
     }
 
-    .rapidos {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin: 12px 0 16px;
-    }
-
-    .rapidos button {
-      min-height: 44px;
-      border-radius: 14px;
-      background: var(--azul2);
-      color: white;
-      font-weight: 1000;
-    }
-
     .feedback {
       min-height: 22px;
       margin: 12px 0 0;
       font-weight: 950;
-    }
-
-    .ideia {
-      background: linear-gradient(135deg, rgba(7,31,69,.98), rgba(11,52,112,.96));
-      color: white;
-    }
-
-    .ideia .caps,
-    .ideia h3 {
-      color: white;
-    }
-
-    .ideia p:last-child {
-      color: rgba(255,255,255,.82);
-      font-weight: 800;
     }
 
     .semana,
@@ -791,14 +746,6 @@
     }
 
     @media (max-width: 410px) {
-      .hero {
-        align-items: flex-start;
-      }
-
-      .hero-texto {
-        max-width: 58%;
-      }
-
       .metricas {
         grid-template-columns: 1fr;
       }
@@ -809,10 +756,6 @@
 
       .backup {
         grid-template-columns: 1fr;
-      }
-
-      .rapidos {
-        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -837,25 +780,22 @@
     <main>
       <section class="tela ativa" id="tela-painel">
         <article class="hero">
-          <div class="hero-texto">
+          <div class="hero-conteudo">
             <p class="caps">Hoje no cofre</p>
             <h2 id="hojeGuardado">R$ 0,00</h2>
-            <p id="frasePrincipal">Abasteça primeiro. Gaste depois.</p>
-          </div>
 
-          <div class="botijao">
-            <div class="botijao-topo"></div>
-            <div class="botijao-corpo">
-              <div class="nivel" id="nivelMeta"></div>
-              <span id="percentualMeta">0%</span>
+            <div class="mini-botijao">
+              <div class="botijao-topo"></div>
+              <div class="botijao-corpo">
+                <div class="nivel" id="nivelMeta"></div>
+                <span id="percentualMeta">0%</span>
+              </div>
+              <div class="botijao-baixo"></div>
             </div>
-            <div class="botijao-baixo"></div>
+
+            <p id="frasePrincipal">Guardar primeiro. Gastar depois.</p>
           </div>
         </article>
-
-        <section class="aviso" id="avisoStatus">
-          🧯 Controle iniciado. Primeiro abastecimento pendente.
-        </section>
 
         <section class="metricas">
           <article>
@@ -874,7 +814,7 @@
           </article>
 
           <article class="destaque">
-            <small>Falta para meta</small>
+            <small>Falta mês</small>
             <strong id="faltaMeta">R$ 1.500,00</strong>
           </article>
         </section>
@@ -882,40 +822,42 @@
         <section class="card">
           <div class="titulo">
             <div>
-              <p class="caps vermelho">Ritmo do mês</p>
-              <h3>Abastecimento</h3>
+              <p class="caps vermelho">Meta final</p>
+              <h3>Progresso geral</h3>
             </div>
-            <strong id="percentualRitmo">0%</strong>
+            <strong id="percentualFinal">0%</strong>
           </div>
 
           <div class="barra">
-            <div id="barraMes"></div>
+            <div id="barraFinal"></div>
           </div>
 
-          <p class="texto-fraco" id="analiseRitmo">
-            Registre o primeiro valor para o app calcular o ritmo.
+          <p class="texto-fraco" id="analiseFinal">
+            Defina uma meta final para acompanhar o objetivo maior.
           </p>
         </section>
 
         <section class="card">
           <div class="titulo">
             <div>
-              <p class="caps vermelho">Últimos 7 dias</p>
-              <h3>Termômetro financeiro</h3>
+              <p class="caps vermelho">Ritmo inteligente</p>
+              <h3>Plano automático</h3>
             </div>
-            <button class="botao-texto" data-ir="lancar">Lançar</button>
+            <span class="pill" id="sequenciaTexto">0 dias</span>
           </div>
 
-          <div class="grafico" id="graficoSemana"></div>
+          <p class="texto-fraco" id="planoAutomatico">
+            O app vai calcular quanto precisa guardar por dia.
+          </p>
         </section>
 
-        <button class="botao-principal" data-ir="lancar">+ Abastecer cofre agora</button>
+        <button class="botao-principal" data-ir="lancar">+ Direcionar ao cofre</button>
       </section>
 
       <section class="tela" id="tela-lancar">
         <section class="card form">
           <p class="caps vermelho">Lançamento</p>
-          <h2 id="tituloForm">Novo abastecimento</h2>
+          <h2 id="tituloForm">Adicionar valor</h2>
 
           <input type="hidden" id="editandoId" />
 
@@ -928,53 +870,14 @@
           </label>
 
           <label>
-            Quanto entrou hoje? <em>opcional</em>
-            <div class="campo-dinheiro azul">
-              <span>R$</span>
-              <input id="valorEntrada" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,00" />
-            </div>
-          </label>
-
-          <label>
-            Tipo
-            <select id="tipoEntrada">
-              <option>Salário</option>
-              <option>Diária</option>
-              <option>Extra</option>
-              <option>Pix recebido</option>
-              <option>Troco guardado</option>
-              <option>Economia do dia</option>
-              <option>Outro</option>
-            </select>
-          </label>
-
-          <label>
-            Observação
-            <input id="observacao" maxlength="90" placeholder="Ex: guardei antes de gastar" />
-          </label>
-
-          <label>
             Data
             <input id="dataEntrada" type="date" />
           </label>
-
-          <div class="rapidos">
-            <button data-valor="20">+20</button>
-            <button data-valor="50">+50</button>
-            <button data-valor="100">+100</button>
-            <button data-valor="200">+200</button>
-          </div>
 
           <button class="botao-principal" id="salvar">Salvar no cofre</button>
           <button class="botao-secundario" id="cancelarEdicao" hidden>Cancelar edição</button>
 
           <p class="feedback" id="feedback"></p>
-        </section>
-
-        <section class="card ideia">
-          <p class="caps vermelho">Regra de ouro</p>
-          <h3>Guardar primeiro muda o jogo.</h3>
-          <p>Quando o dinheiro entra, uma parte já vira cofre. O resto vira gasto permitido.</p>
         </section>
       </section>
 
@@ -1015,7 +918,7 @@
           </div>
 
           <div class="filtros">
-            <input id="busca" placeholder="Buscar por tipo ou observação" />
+            <input id="busca" placeholder="Buscar por valor ou data" />
             <select id="filtro">
               <option value="todos">Tudo</option>
               <option value="mes">Mês atual</option>
@@ -1046,7 +949,15 @@
           </label>
 
           <label>
-            Meta diária sugerida
+            Meta final
+            <div class="campo-dinheiro azul">
+              <span>R$</span>
+              <input id="metaFinal" type="number" inputmode="decimal" min="1" step="0.01" />
+            </div>
+          </label>
+
+          <label>
+            Depósito mínimo diário
             <div class="campo-dinheiro azul">
               <span>R$</span>
               <input id="metaDiaria" type="number" inputmode="decimal" min="1" step="0.01" />
@@ -1061,6 +972,19 @@
           <p class="caps">Conquista atual</p>
           <h3 id="tituloConquista">Cofre zerado</h3>
           <p id="textoConquista">Comece hoje. O primeiro registro já muda o comportamento.</p>
+        </section>
+
+        <section class="card">
+          <div class="titulo">
+            <div>
+              <p class="caps vermelho">Resumo do mês</p>
+              <h3>Diagnóstico</h3>
+            </div>
+          </div>
+
+          <p class="texto-fraco" id="diagnosticoMensal">
+            Nenhum diagnóstico ainda.
+          </p>
         </section>
 
         <section class="card">
@@ -1118,7 +1042,7 @@
     <dialog id="menu">
       <div class="modal">
         <h2>Cofre Nacional PRO</h2>
-        <p>Controle diário de dinheiro guardado. Visual forte, simples e feito para virar hábito.</p>
+        <p>App offline para controlar dinheiro guardado por dia.</p>
         <button class="botao-secundario" id="dicaInstalar">Instalar no celular</button>
         <br><br>
         <button class="botao-principal" id="fecharMenu">Fechar</button>
@@ -1127,7 +1051,7 @@
   </div>
 
   <script>
-    const CHAVE = "cofre-nacional-pro-v1";
+    const CHAVE = "cofre-nacional-pro-v2";
 
     const $ = seletor => document.querySelector(seletor);
     const $$ = seletor => [...document.querySelectorAll(seletor)];
@@ -1136,6 +1060,7 @@
       registros: [],
       config: {
         metaMensal: 1500,
+        metaFinal: 10000,
         metaDiaria: 50
       }
     };
@@ -1205,8 +1130,8 @@
       return dataLocal(iso).toLocaleDateString("pt-BR");
     }
 
-    function somar(lista, campo = "guardado") {
-      return lista.reduce((total, item) => total + Number(item[campo] || 0), 0);
+    function somar(lista) {
+      return lista.reduce((total, item) => total + Number(item.guardado || 0), 0);
     }
 
     function registrosDoDia(iso) {
@@ -1226,15 +1151,11 @@
 
     function totais() {
       const hoje = hojeISO();
-      const listaHoje = registrosDoDia(hoje);
-      const listaMes = registrosDoMesAtual();
 
       return {
-        hoje: somar(listaHoje),
-        mes: somar(listaMes),
-        geral: somar(estado.registros),
-        entradaHoje: somar(listaHoje, "entrada"),
-        entradaMes: somar(listaMes, "entrada")
+        hoje: somar(registrosDoDia(hoje)),
+        mes: somar(registrosDoMesAtual()),
+        geral: somar(estado.registros)
       };
     }
 
@@ -1260,136 +1181,86 @@
 
     function renderizarTudo() {
       const t = totais();
-      const meta = Number(estado.config.metaMensal || 1);
-      const percentual = Math.min(Math.round((t.mes / meta) * 100), 100);
-      const falta = Math.max(meta - t.mes, 0);
+
+      const metaMensal = Number(estado.config.metaMensal || 1);
+      const metaFinal = Number(estado.config.metaFinal || 1);
+
+      const percentualMensal = Math.min(Math.round((t.mes / metaMensal) * 100), 100);
+      const percentualFinal = Math.min(Math.round((t.geral / metaFinal) * 100), 100);
+
+      const faltaMes = Math.max(metaMensal - t.mes, 0);
+      const faltaFinal = Math.max(metaFinal - t.geral, 0);
 
       $("#hojeGuardado").textContent = dinheiro(t.hoje);
       $("#mesGuardado").textContent = dinheiro(t.mes);
       $("#totalGeral").textContent = dinheiro(t.geral);
-      $("#metaMensalTexto").textContent = dinheiro(meta);
-      $("#faltaMeta").textContent = dinheiro(falta);
+      $("#metaMensalTexto").textContent = dinheiro(metaMensal);
+      $("#faltaMeta").textContent = dinheiro(faltaMes);
 
-      $("#percentualMeta").textContent = `${percentual}%`;
-      $("#percentualRitmo").textContent = `${percentual}%`;
-      $("#nivelMeta").style.height = `${percentual}%`;
-      $("#barraMes").style.width = `${percentual}%`;
+      $("#percentualMeta").textContent = `${percentualMensal}%`;
+      $("#nivelMeta").style.height = `${percentualMensal}%`;
+
+      $("#percentualFinal").textContent = `${percentualFinal}%`;
+      $("#barraFinal").style.width = `${percentualFinal}%`;
 
       $("#metaMensal").value = estado.config.metaMensal;
+      $("#metaFinal").value = estado.config.metaFinal;
       $("#metaDiaria").value = estado.config.metaDiaria;
 
-      renderizarStatus(t, percentual);
-      renderizarAnalise(t, percentual);
-      renderizarGraficoSemana();
-      renderizarConquista(t, percentual);
+      if (percentualMensal >= 100) {
+        $("#frasePrincipal").textContent = "Meta do mês batida. Agora é blindar.";
+      } else if (t.hoje > 0) {
+        $("#frasePrincipal").textContent = "Registro fechado hoje.";
+      } else {
+        $("#frasePrincipal").textContent = "Guardar primeiro. Gastar depois.";
+      }
+
+      $("#analiseFinal").textContent =
+        `Meta final: ${dinheiro(metaFinal)}. Falta ${dinheiro(faltaFinal)} para concluir o objetivo.`;
+
+      renderizarPlanoAutomatico(t);
+      renderizarConquista(t, percentualMensal, percentualFinal);
+      renderizarDiagnostico(t);
       renderizarHistorico();
       renderizarCalendario();
     }
 
-    function renderizarStatus(t, percentual) {
-      const aviso = $("#avisoStatus");
-      aviso.className = "aviso";
+    function renderizarPlanoAutomatico(t) {
+      const hoje = new Date();
+      const diaAtual = hoje.getDate();
+      const diasNoMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0).getDate();
+      const diasRestantes = Math.max(diasNoMes - diaAtual + 1, 1);
 
-      const ultimo = ordenarRegistros()[0];
-      const guardouHoje = t.hoje > 0;
+      const faltaMes = Math.max(estado.config.metaMensal - t.mes, 0);
+      const porDia = faltaMes / diasRestantes;
 
-      if (percentual >= 100) {
-        aviso.classList.add("bom");
-        aviso.textContent = "🏆 Lacre azul: meta batida este mês.";
-        $("#frasePrincipal").textContent = "Meta batida. Agora é blindar o resultado.";
+      const sequencia = calcularSequencia();
+      $("#sequenciaTexto").textContent = `${sequencia} dia${sequencia === 1 ? "" : "s"}`;
+
+      if (faltaMes <= 0) {
+        $("#planoAutomatico").textContent =
+          "Meta mensal concluída. Todo valor novo acelera a meta final.";
         return;
       }
 
-      if (!ultimo) {
-        aviso.textContent = "🧯 Controle iniciado. Primeiro abastecimento pendente.";
-        $("#frasePrincipal").textContent = "Abasteça primeiro. Gaste depois.";
-        return;
-      }
-
-      const diasSemGuardar = Math.floor((dataLocal(hojeISO()) - dataLocal(ultimo.data)) / 86400000);
-
-      if (diasSemGuardar >= 2) {
-        aviso.classList.add("ruim");
-        aviso.textContent = `🚨 Vazamento financeiro: ${diasSemGuardar} dias sem guardar.`;
-        $("#frasePrincipal").textContent = "Dinheiro sem comando vira fumaça.";
-        return;
-      }
-
-      if (guardouHoje) {
-        aviso.classList.add("bom");
-        aviso.textContent = "✅ Registro fechado hoje. Cofre abastecido.";
-        $("#frasePrincipal").textContent = "O dinheiro está obedecendo.";
-      } else {
-        aviso.textContent = "⚠️ Hoje ainda não teve abastecimento.";
-        $("#frasePrincipal").textContent = "Não deixe o dia passar em branco.";
-      }
+      $("#planoAutomatico").textContent =
+        `Para bater a meta mensal, guarde cerca de ${dinheiro(porDia)} por dia até o fim do mês.`;
     }
 
-    function renderizarAnalise(t, percentual) {
-      const agora = new Date();
-      const diaAtual = agora.getDate();
-      const diasNoMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0).getDate();
-      const idealAteAgora = (estado.config.metaMensal / diasNoMes) * diaAtual;
-      const diferenca = t.mes - idealAteAgora;
-
-      if (t.mes <= 0) {
-        $("#analiseRitmo").textContent = "Registre o primeiro valor para o app calcular o ritmo.";
-        return;
-      }
-
-      const projecao = (t.mes / diaAtual) * diasNoMes;
-
-      if (percentual >= 100) {
-        $("#analiseRitmo").textContent = `Meta concluída. Projeção do mês: ${dinheiro(projecao)}.`;
-      } else if (diferenca >= 0) {
-        $("#analiseRitmo").textContent = `Ritmo acima do esperado. Projeção atual: ${dinheiro(projecao)}.`;
-      } else {
-        $("#analiseRitmo").textContent = `Ritmo abaixo da meta por ${dinheiro(Math.abs(diferenca))}. Projeção atual: ${dinheiro(projecao)}.`;
-      }
-    }
-
-    function renderizarGraficoSemana() {
-      const container = $("#graficoSemana");
-      container.innerHTML = "";
-
-      const metaDiaria = Number(estado.config.metaDiaria || 50);
-      const hoje = dataLocal(hojeISO());
-
-      for (let i = 6; i >= 0; i--) {
-        const data = new Date(hoje);
-        data.setDate(hoje.getDate() - i);
-
-        const iso = isoDaData(data);
-        const total = somar(registrosDoDia(iso));
-        const percentual = Math.min((total / metaDiaria) * 100, 100);
-        const nomeDia = data.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "");
-
-        const item = document.createElement("div");
-        item.className = "dia-grafico";
-        item.title = `${formatarData(iso)}: ${dinheiro(total)}`;
-
-        item.innerHTML = `
-          <div class="trilho">
-            <div class="preenchimento" style="height:${Math.max(percentual, total > 0 ? 8 : 0)}%"></div>
-          </div>
-          <span>${nomeDia}</span>
-        `;
-
-        container.appendChild(item);
-      }
-    }
-
-    function renderizarConquista(t, percentual) {
+    function renderizarConquista(t, percentualMensal, percentualFinal) {
       const titulo = $("#tituloConquista");
       const texto = $("#textoConquista");
       const sequencia = calcularSequencia();
 
-      if (percentual >= 100) {
-        titulo.textContent = "Lacre Azul conquistado";
-        texto.textContent = `Meta mensal batida com ${dinheiro(t.mes)} guardados.`;
+      if (percentualFinal >= 100) {
+        titulo.textContent = "Objetivo final conquistado";
+        texto.textContent = `Meta final batida com ${dinheiro(t.geral)} guardados.`;
+      } else if (percentualMensal >= 100) {
+        titulo.textContent = "Meta mensal batida";
+        texto.textContent = `Este mês já foram guardados ${dinheiro(t.mes)}.`;
       } else if (sequencia >= 7) {
         titulo.textContent = "Semana blindada";
-        texto.textContent = `${sequencia} dias seguidos guardando. Isso é hábito de gente disciplinada.`;
+        texto.textContent = `${sequencia} dias seguidos guardando. O hábito está funcionando.`;
       } else if (t.geral >= 1000) {
         titulo.textContent = "Primeiro milhar protegido";
         texto.textContent = `O cofre já acumulou ${dinheiro(t.geral)} no total.`;
@@ -1400,6 +1271,28 @@
         titulo.textContent = "Cofre zerado";
         texto.textContent = "Comece hoje. O primeiro registro já muda o comportamento.";
       }
+    }
+
+    function renderizarDiagnostico(t) {
+      const diasGuardadosMes = new Set(
+        registrosDoMesAtual()
+          .filter(r => r.guardado > 0)
+          .map(r => r.data)
+      ).size;
+
+      const media = diasGuardadosMes ? t.mes / diasGuardadosMes : 0;
+      const melhor = registrosDoMesAtual().reduce((maior, r) => {
+        return Number(r.guardado) > maior ? Number(r.guardado) : maior;
+      }, 0);
+
+      if (t.mes <= 0) {
+        $("#diagnosticoMensal").textContent =
+          "Ainda não há registros neste mês.";
+        return;
+      }
+
+      $("#diagnosticoMensal").textContent =
+        `Neste mês: ${diasGuardadosMes} dia(s) com depósito, média de ${dinheiro(media)} por dia ativo e melhor depósito de ${dinheiro(melhor)}.`;
     }
 
     function calcularSequencia() {
@@ -1438,7 +1331,7 @@
 
       if (termo) {
         registros = registros.filter(r => {
-          return `${r.tipo} ${r.obs}`.toLowerCase().includes(termo);
+          return `${r.guardado} ${r.data} ${formatarData(r.data)}`.toLowerCase().includes(termo);
         });
       }
 
@@ -1452,16 +1345,13 @@
       vazio.style.display = "none";
 
       for (const r of registros) {
-        const vazamento = Math.max(Number(r.entrada || 0) - Number(r.guardado || 0), 0);
-
         const item = document.createElement("article");
         item.className = "item";
 
         item.innerHTML = `
           <div>
             <h3>${dinheiro(r.guardado)}</h3>
-            <p>${formatarData(r.data)} • ${escapar(r.tipo)}</p>
-            <p>${r.obs ? escapar(r.obs) : "Sem observação"}${r.entrada ? ` • entrou ${dinheiro(r.entrada)} • não guardado ${dinheiro(vazamento)}` : ""}</p>
+            <p>${formatarData(r.data)}</p>
           </div>
 
           <div class="acoes">
@@ -1536,34 +1426,25 @@
 
     function limparFormulario() {
       $("#editandoId").value = "";
-      $("#tituloForm").textContent = "Novo abastecimento";
+      $("#tituloForm").textContent = "Adicionar valor";
       $("#valorGuardado").value = "";
-      $("#valorEntrada").value = "";
-      $("#tipoEntrada").value = "Salário";
-      $("#observacao").value = "";
       $("#dataEntrada").value = hojeISO();
       $("#cancelarEdicao").hidden = true;
     }
 
     function salvarRegistro() {
       const guardado = numero($("#valorGuardado"));
-      const entrada = numero($("#valorEntrada"));
-      const tipo = $("#tipoEntrada").value;
-      const obs = $("#observacao").value.trim();
       const data = $("#dataEntrada").value || hojeISO();
       const editandoId = $("#editandoId").value;
 
       if (!guardado || guardado <= 0) {
-        mostrarFeedback("#feedback", "Digite um valor guardado válido.", true);
+        mostrarFeedback("#feedback", "Digite um valor válido.", true);
         return;
       }
 
       const registro = {
         id: editandoId || criarId(),
         guardado,
-        entrada: entrada > 0 ? entrada : 0,
-        tipo,
-        obs,
         data,
         criadoEm: editandoId
           ? estado.registros.find(r => r.id === editandoId)?.criadoEm || Date.now()
@@ -1582,7 +1463,7 @@
       salvarEstado();
       renderizarTudo();
 
-      mostrarFeedback("#feedback", editandoId ? "Registro atualizado." : "Cofre abastecido com sucesso.");
+      mostrarFeedback("#feedback", editandoId ? "Registro atualizado." : "Valor salvo no cofre.");
 
       setTimeout(() => {
         limparFormulario();
@@ -1595,11 +1476,8 @@
       if (!r) return;
 
       $("#editandoId").value = r.id;
-      $("#tituloForm").textContent = "Editar abastecimento";
+      $("#tituloForm").textContent = "Editar valor";
       $("#valorGuardado").value = r.guardado;
-      $("#valorEntrada").value = r.entrada || "";
-      $("#tipoEntrada").value = r.tipo;
-      $("#observacao").value = r.obs || "";
       $("#dataEntrada").value = r.data;
       $("#cancelarEdicao").hidden = false;
 
@@ -1627,18 +1505,6 @@
       return String(Date.now()) + Math.random().toString(16).slice(2);
     }
 
-    function escapar(texto = "") {
-      return String(texto).replace(/[&<>"']/g, caractere => {
-        return {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#039;"
-        }[caractere];
-      });
-    }
-
     function mostrarFeedback(seletor, mensagem, erro = false) {
       const el = $(seletor);
       el.textContent = mensagem;
@@ -1652,13 +1518,10 @@
       }
 
       const linhas = [
-        ["data", "valor_guardado", "valor_entrada", "tipo", "observacao"],
+        ["data", "valor_guardado"],
         ...ordenarRegistros().map(r => [
           r.data,
-          String(r.guardado).replace(".", ","),
-          String(r.entrada || 0).replace(".", ","),
-          r.tipo,
-          r.obs || ""
+          String(r.guardado).replace(".", ",")
         ])
       ];
 
@@ -1723,16 +1586,18 @@
 
     async function copiarResumo() {
       const t = totais();
-      const meta = estado.config.metaMensal;
-      const percentual = Math.min(Math.round((t.mes / meta) * 100), 100);
+      const percentualMes = Math.min(Math.round((t.mes / estado.config.metaMensal) * 100), 100);
+      const percentualFinal = Math.min(Math.round((t.geral / estado.config.metaFinal) * 100), 100);
 
       const resumo = [
         "RESUMO DO COFRE NACIONAL",
         `Hoje guardado: ${dinheiro(t.hoje)}`,
         `Total do mês: ${dinheiro(t.mes)}`,
-        `Meta mensal: ${dinheiro(meta)}`,
-        `Progresso: ${percentual}%`,
-        `Total geral: ${dinheiro(t.geral)}`
+        `Meta mensal: ${dinheiro(estado.config.metaMensal)}`,
+        `Progresso mensal: ${percentualMes}%`,
+        `Total geral: ${dinheiro(t.geral)}`,
+        `Meta final: ${dinheiro(estado.config.metaFinal)}`,
+        `Progresso final: ${percentualFinal}%`
       ].join("\n");
 
       try {
@@ -1763,23 +1628,18 @@
         mostrarFeedback("#feedback", "Edição cancelada.");
       });
 
-      $$(".rapidos button").forEach(botao => {
-        botao.addEventListener("click", () => {
-          $("#valorGuardado").value = botao.dataset.valor;
-          $("#valorGuardado").focus();
-        });
-      });
-
       $("#salvarMetas").addEventListener("click", () => {
         const metaMensal = numero($("#metaMensal"));
+        const metaFinal = numero($("#metaFinal"));
         const metaDiaria = numero($("#metaDiaria"));
 
-        if (!metaMensal || metaMensal <= 0 || !metaDiaria || metaDiaria <= 0) {
+        if (!metaMensal || metaMensal <= 0 || !metaFinal || metaFinal <= 0 || !metaDiaria || metaDiaria <= 0) {
           mostrarFeedback("#feedbackMetas", "Preencha metas válidas.", true);
           return;
         }
 
         estado.config.metaMensal = metaMensal;
+        estado.config.metaFinal = metaFinal;
         estado.config.metaDiaria = metaDiaria;
 
         salvarEstado();
@@ -1830,14 +1690,24 @@
       });
 
       $("#dicaInstalar").addEventListener("click", () => {
-        alert("No celular: abra o link do GitHub Pages no navegador e escolha “Adicionar à Tela de Início”.");
+        alert("No celular: abra o link do GitHub Pages e toque em “Adicionar à Tela de Início”. Depois do primeiro carregamento, ele funciona offline.");
       });
+    }
+
+    function registrarServiceWorker() {
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js")
+            .catch(() => {});
+        });
+      }
     }
 
     $("#dataEntrada").value = hojeISO();
     $("#seletorMes").value = chaveMes();
 
     configurarEventos();
+    registrarServiceWorker();
     renderizarTudo();
   </script>
 </body>
