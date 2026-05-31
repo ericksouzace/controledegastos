@@ -1,0 +1,12 @@
+{
+  "name": "Cofre Nacional PRO",
+  "short_name": "Cofre PRO",
+  "description": "App offline para controlar dinheiro guardado por dia.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef3fa",
+  "theme_color": "#071f45",
+  "orientation": "portrait",
+  "icons": []
+}
