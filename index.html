@@ -1,0 +1,1844 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#071f45" />
+  <title>Cofre Nacional PRO</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --azul: #071f45;
+      --azul2: #0b3470;
+      --azul3: #0f4c96;
+      --vermelho: #e30613;
+      --vermelho2: #b9000b;
+      --fundo: #eef3fa;
+      --texto: #0e1726;
+      --cinza: #697386;
+      --linha: #dce4ef;
+      --verde: #13a05f;
+      --card: rgba(255,255,255,.94);
+      --sombra: 0 18px 50px rgba(7,31,69,.16);
+      --raio: 26px;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(227,6,19,.15), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(15,76,150,.18), transparent 32%),
+        linear-gradient(160deg, #fff, var(--fundo));
+      color: var(--texto);
+    }
+
+    body {
+      padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      max-width: 560px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding-bottom: 98px;
+    }
+
+    .topo {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 18px 16px 22px;
+      background:
+        linear-gradient(135deg, rgba(7,31,69,.98), rgba(11,52,112,.98)),
+        radial-gradient(circle at 95% 0%, rgba(227,6,19,.6), transparent 35%);
+      color: white;
+      border-bottom-left-radius: 34px;
+      border-bottom-right-radius: 34px;
+      box-shadow: var(--sombra);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .marca {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 21px;
+      background: white;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      right: -10px;
+      bottom: -18px;
+      height: 36px;
+      background: var(--vermelho);
+      transform: rotate(-10deg);
+    }
+
+    .gota {
+      width: 25px;
+      height: 35px;
+      background: linear-gradient(var(--vermelho), var(--vermelho2));
+      border-radius: 60% 60% 58% 58%;
+      transform: rotate(6deg);
+      z-index: 1;
+      position: relative;
+    }
+
+    .gota::after {
+      content: "";
+      width: 9px;
+      height: 15px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      left: 8px;
+      bottom: 6px;
+      opacity: .9;
+    }
+
+    .marca small,
+    .caps {
+      display: block;
+      margin: 0 0 4px;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-size: 11px;
+      font-weight: 950;
+      color: rgba(255,255,255,.75);
+    }
+
+    .caps {
+      color: var(--azul2);
+    }
+
+    .caps.vermelho {
+      color: var(--vermelho);
+    }
+
+    .marca h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -.04em;
+    }
+
+    .marca b {
+      background: var(--vermelho);
+      color: white;
+      padding: 2px 7px;
+      border-radius: 8px;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    .menu-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 17px;
+      background: rgba(255,255,255,.14);
+      color: white;
+      font-weight: 900;
+      font-size: 22px;
+    }
+
+    main {
+      padding: 16px;
+    }
+
+    .tela {
+      display: none;
+      animation: subir .2s ease both;
+    }
+
+    .tela.ativa {
+      display: block;
+    }
+
+    @keyframes subir {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero,
+    .card,
+    .metricas article,
+    .aviso {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.75);
+      box-shadow: var(--sombra);
+      border-radius: var(--raio);
+    }
+
+    .hero {
+      min-height: 218px;
+      padding: 20px;
+      color: white;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(255,255,255,.22), transparent 30%),
+        linear-gradient(135deg, var(--vermelho), var(--vermelho2) 52%, #8a0007);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      right: -92px;
+      bottom: -86px;
+      border: 28px solid rgba(255,255,255,.13);
+    }
+
+    .hero-texto {
+      max-width: 62%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h2 {
+      margin: 2px 0 8px;
+      font-size: clamp(36px, 11vw, 54px);
+      letter-spacing: -.07em;
+      line-height: .95;
+    }
+
+    .hero p:last-child {
+      margin: 0;
+      font-weight: 950;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .botijao {
+      width: 108px;
+      display: grid;
+      justify-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .botijao-topo,
+    .botijao-baixo {
+      width: 88px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.82);
+      border: 4px solid rgba(255,255,255,.95);
+    }
+
+    .botijao-corpo {
+      width: 88px;
+      height: 132px;
+      margin: -12px 0;
+      border: 4px solid rgba(255,255,255,.96);
+      background: rgba(255,255,255,.2);
+      overflow: hidden;
+      position: relative;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+    }
+
+    .nivel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 0%;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.8), rgba(255,255,255,.35)),
+        linear-gradient(180deg, #16a34a, #0b3470);
+      transition: height .35s ease;
+    }
+
+    .botijao-corpo span {
+      z-index: 2;
+      font-weight: 1000;
+      font-size: 24px;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,.45);
+    }
+
+    .aviso {
+      margin: 14px 0;
+      padding: 13px 15px;
+      font-weight: 950;
+      color: var(--azul2);
+    }
+
+    .aviso.bom {
+      color: var(--verde);
+      background: #f1fff7;
+    }
+
+    .aviso.ruim {
+      color: var(--vermelho);
+      background: #fff4f4;
+    }
+
+    .metricas {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .metricas article {
+      padding: 16px;
+      min-height: 100px;
+    }
+
+    .metricas small {
+      display: block;
+      color: var(--cinza);
+      font-weight: 900;
+      margin-bottom: 9px;
+    }
+
+    .metricas strong {
+      color: var(--azul2);
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .metricas .destaque strong {
+      color: var(--vermelho);
+    }
+
+    .card {
+      padding: 18px;
+      margin: 14px 0;
+    }
+
+    .titulo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .titulo h2,
+    .titulo h3,
+    .form h2 {
+      margin: 0;
+      letter-spacing: -.05em;
+      color: var(--azul);
+    }
+
+    .barra {
+      height: 18px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #d9e3f1;
+      box-shadow: inset 0 2px 8px rgba(7,31,69,.14);
+    }
+
+    .barra div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--vermelho), var(--azul3));
+      border-radius: inherit;
+      transition: width .35s ease;
+    }
+
+    .texto-fraco {
+      color: var(--cinza);
+      font-weight: 750;
+      line-height: 1.45;
+    }
+
+    .grafico {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-items: end;
+      min-height: 132px;
+      gap: 9px;
+    }
+
+    .dia-grafico {
+      display: grid;
+      align-items: end;
+      gap: 7px;
+      text-align: center;
+      color: var(--cinza);
+      font-size: 11px;
+      font-weight: 950;
+    }
+
+    .trilho {
+      height: 92px;
+      border-radius: 999px;
+      background: #e0e9f6;
+      overflow: hidden;
+      display: flex;
+      align-items: end;
+    }
+
+    .preenchimento {
+      width: 100%;
+      min-height: 5px;
+      background: linear-gradient(180deg, var(--vermelho), var(--azul2));
+      border-radius: inherit;
+    }
+
+    .botao-principal,
+    .botao-secundario,
+    .botao-perigo,
+    .botao-texto {
+      font-weight: 1000;
+      border-radius: 18px;
+    }
+
+    .botao-principal {
+      width: 100%;
+      min-height: 58px;
+      color: white;
+      background: linear-gradient(135deg, var(--vermelho), var(--vermelho2));
+      box-shadow: 0 18px 38px rgba(227,6,19,.28);
+    }
+
+    .botao-secundario {
+      min-height: 48px;
+      padding: 0 14px;
+      background: #eef3fa;
+      color: var(--azul2);
+      border: 1px solid var(--linha);
+    }
+
+    .botao-perigo {
+      min-height: 48px;
+      padding: 0 14px;
+      background: #ffe6e8;
+      color: var(--vermelho);
+      border: 1px solid #ffc9ce;
+    }
+
+    .botao-texto {
+      background: #eff5ff;
+      color: var(--azul2);
+      padding: 10px 12px;
+    }
+
+    .form label {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0;
+      color: var(--azul);
+      font-weight: 950;
+    }
+
+    .form em {
+      color: var(--cinza);
+      font-style: normal;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 54px;
+      border-radius: 17px;
+      border: 1px solid var(--linha);
+      background: white;
+      color: var(--texto);
+      outline: none;
+      padding: 0 14px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--azul2);
+      box-shadow: 0 0 0 4px rgba(11,52,112,.11);
+    }
+
+    .campo-dinheiro {
+      display: flex;
+      align-items: center;
+      min-height: 58px;
+      background: white;
+      border: 1px solid var(--linha);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .campo-dinheiro span {
+      height: 58px;
+      width: 56px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--vermelho);
+      font-weight: 1000;
+    }
+
+    .campo-dinheiro.azul span {
+      background: var(--azul2);
+    }
+
+    .campo-dinheiro input {
+      border: 0;
+      border-radius: 0;
+      min-height: 58px;
+      box-shadow: none;
+      font-size: 22px;
+      font-weight: 1000;
+    }
+
+    .rapidos {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    .rapidos button {
+      min-height: 44px;
+      border-radius: 14px;
+      background: var(--azul2);
+      color: white;
+      font-weight: 1000;
+    }
+
+    .feedback {
+      min-height: 22px;
+      margin: 12px 0 0;
+      font-weight: 950;
+    }
+
+    .ideia {
+      background: linear-gradient(135deg, rgba(7,31,69,.98), rgba(11,52,112,.96));
+      color: white;
+    }
+
+    .ideia .caps,
+    .ideia h3 {
+      color: white;
+    }
+
+    .ideia p:last-child {
+      color: rgba(255,255,255,.82);
+      font-weight: 800;
+    }
+
+    .semana,
+    .calendario {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .semana span {
+      text-align: center;
+      color: var(--cinza);
+      font-weight: 1000;
+      font-size: 12px;
+    }
+
+    .dia {
+      min-height: 72px;
+      border-radius: 17px;
+      background: #f5f8fc;
+      border: 1px solid var(--linha);
+      padding: 8px;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .dia.vazio {
+      opacity: 0;
+    }
+
+    .dia.hoje {
+      box-shadow: 0 0 0 3px rgba(227,6,19,.16);
+    }
+
+    .dia .num {
+      font-size: 12px;
+      font-weight: 1000;
+      color: var(--azul);
+    }
+
+    .dia .valor {
+      font-size: 11px;
+      font-weight: 1000;
+      color: var(--cinza);
+    }
+
+    .dia.n1 {
+      background: #fff5f5;
+      border-color: #ffd1d4;
+    }
+
+    .dia.n2 {
+      background: #ffe2e4;
+      border-color: #ffb7bc;
+    }
+
+    .dia.n3 {
+      background: #fdd1d5;
+      border-color: #ff8b94;
+    }
+
+    .dia.n4 {
+      background: linear-gradient(135deg, #e30613, #0b3470);
+      color: white;
+    }
+
+    .dia.n4 .num,
+    .dia.n4 .valor {
+      color: white;
+    }
+
+    .filtros {
+      display: grid;
+      grid-template-columns: 1fr 130px;
+      gap: 9px;
+      margin-bottom: 14px;
+    }
+
+    .lista {
+      display: grid;
+      gap: 10px;
+    }
+
+    .item {
+      background: white;
+      border: 1px solid var(--linha);
+      border-left: 7px solid var(--vermelho);
+      border-radius: 20px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    .item h3 {
+      margin: 0;
+      color: var(--azul2);
+      letter-spacing: -.04em;
+    }
+
+    .item p {
+      margin: 5px 0 0;
+      color: var(--cinza);
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .acoes {
+      display: flex;
+      gap: 7px;
+    }
+
+    .acao {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      background: #eef3fa;
+      color: var(--azul2);
+      font-weight: 1000;
+    }
+
+    .acao.excluir {
+      background: #ffe6e8;
+      color: var(--vermelho);
+    }
+
+    .vazio-msg {
+      padding: 28px 8px;
+      text-align: center;
+      color: var(--cinza);
+    }
+
+    .vazio-msg strong {
+      color: var(--azul2);
+    }
+
+    .trofeu {
+      background:
+        radial-gradient(circle at 100% 0%, rgba(255,255,255,.18), transparent 35%),
+        linear-gradient(135deg, var(--azul), var(--azul3));
+      color: white;
+    }
+
+    .trofeu .caps,
+    .trofeu h3 {
+      color: white;
+    }
+
+    .trofeu p:last-child {
+      color: rgba(255,255,255,.82);
+      font-weight: 850;
+    }
+
+    .backup {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .arquivo {
+      display: grid;
+      place-items: center;
+    }
+
+    .abas {
+      position: fixed;
+      left: 50%;
+      bottom: max(10px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(540px, calc(100% - 20px));
+      min-height: 76px;
+      padding: 8px;
+      background: rgba(255,255,255,.93);
+      border: 1px solid rgba(255,255,255,.86);
+      backdrop-filter: blur(20px);
+      border-radius: 28px;
+      box-shadow: 0 18px 48px rgba(7,31,69,.22);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      z-index: 30;
+    }
+
+    .aba {
+      background: transparent;
+      color: var(--cinza);
+      display: grid;
+      gap: 2px;
+      place-items: center;
+      border-radius: 21px;
+      font-size: 10px;
+      font-weight: 1000;
+    }
+
+    .aba span {
+      font-size: 19px;
+    }
+
+    .aba.ativa {
+      color: white;
+      background: linear-gradient(135deg, var(--azul2), var(--azul));
+    }
+
+    dialog {
+      width: min(430px, calc(100% - 30px));
+      border: 0;
+      padding: 0;
+      border-radius: 26px;
+      box-shadow: 0 30px 70px rgba(0,0,0,.34);
+    }
+
+    dialog::backdrop {
+      background: rgba(7,31,69,.58);
+    }
+
+    .modal {
+      padding: 20px;
+    }
+
+    .modal h2 {
+      margin: 0 0 8px;
+      color: var(--azul);
+    }
+
+    .modal p {
+      color: var(--cinza);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 410px) {
+      .hero {
+        align-items: flex-start;
+      }
+
+      .hero-texto {
+        max-width: 58%;
+      }
+
+      .metricas {
+        grid-template-columns: 1fr;
+      }
+
+      .filtros {
+        grid-template-columns: 1fr;
+      }
+
+      .backup {
+        grid-template-columns: 1fr;
+      }
+
+      .rapidos {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header class="topo">
+      <div class="marca">
+        <div class="logo">
+          <span class="gota"></span>
+        </div>
+        <div>
+          <small>Registro fechado</small>
+          <h1>Cofre Nacional <b>PRO</b></h1>
+        </div>
+      </div>
+
+      <button class="menu-btn" id="abrirMenu">☰</button>
+    </header>
+
+    <main>
+      <section class="tela ativa" id="tela-painel">
+        <article class="hero">
+          <div class="hero-texto">
+            <p class="caps">Hoje no cofre</p>
+            <h2 id="hojeGuardado">R$ 0,00</h2>
+            <p id="frasePrincipal">Abasteça primeiro. Gaste depois.</p>
+          </div>
+
+          <div class="botijao">
+            <div class="botijao-topo"></div>
+            <div class="botijao-corpo">
+              <div class="nivel" id="nivelMeta"></div>
+              <span id="percentualMeta">0%</span>
+            </div>
+            <div class="botijao-baixo"></div>
+          </div>
+        </article>
+
+        <section class="aviso" id="avisoStatus">
+          🧯 Controle iniciado. Primeiro abastecimento pendente.
+        </section>
+
+        <section class="metricas">
+          <article>
+            <small>Total do mês</small>
+            <strong id="mesGuardado">R$ 0,00</strong>
+          </article>
+
+          <article>
+            <small>Total geral</small>
+            <strong id="totalGeral">R$ 0,00</strong>
+          </article>
+
+          <article>
+            <small>Meta mensal</small>
+            <strong id="metaMensalTexto">R$ 1.500,00</strong>
+          </article>
+
+          <article class="destaque">
+            <small>Falta para meta</small>
+            <strong id="faltaMeta">R$ 1.500,00</strong>
+          </article>
+        </section>
+
+        <section class="card">
+          <div class="titulo">
+            <div>
+              <p class="caps vermelho">Ritmo do mês</p>
+              <h3>Abastecimento</h3>
+            </div>
+            <strong id="percentualRitmo">0%</strong>
+          </div>
+
+          <div class="barra">
+            <div id="barraMes"></div>
+          </div>
+
+          <p class="texto-fraco" id="analiseRitmo">
+            Registre o primeiro valor para o app calcular o ritmo.
+          </p>
+        </section>
+
+        <section class="card">
+          <div class="titulo">
+            <div>
+              <p class="caps vermelho">Últimos 7 dias</p>
+              <h3>Termômetro financeiro</h3>
+            </div>
+            <button class="botao-texto" data-ir="lancar">Lançar</button>
+          </div>
+
+          <div class="grafico" id="graficoSemana"></div>
+        </section>
+
+        <button class="botao-principal" data-ir="lancar">+ Abastecer cofre agora</button>
+      </section>
+
+      <section class="tela" id="tela-lancar">
+        <section class="card form">
+          <p class="caps vermelho">Lançamento</p>
+          <h2 id="tituloForm">Novo abastecimento</h2>
+
+          <input type="hidden" id="editandoId" />
+
+          <label>
+            Valor guardado
+            <div class="campo-dinheiro">
+              <span>R$</span>
+              <input id="valorGuardado" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,00" />
+            </div>
+          </label>
+
+          <label>
+            Quanto entrou hoje? <em>opcional</em>
+            <div class="campo-dinheiro azul">
+              <span>R$</span>
+              <input id="valorEntrada" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,00" />
+            </div>
+          </label>
+
+          <label>
+            Tipo
+            <select id="tipoEntrada">
+              <option>Salário</option>
+              <option>Diária</option>
+              <option>Extra</option>
+              <option>Pix recebido</option>
+              <option>Troco guardado</option>
+              <option>Economia do dia</option>
+              <option>Outro</option>
+            </select>
+          </label>
+
+          <label>
+            Observação
+            <input id="observacao" maxlength="90" placeholder="Ex: guardei antes de gastar" />
+          </label>
+
+          <label>
+            Data
+            <input id="dataEntrada" type="date" />
+          </label>
+
+          <div class="rapidos">
+            <button data-valor="20">+20</button>
+            <button data-valor="50">+50</button>
+            <button data-valor="100">+100</button>
+            <button data-valor="200">+200</button>
+          </div>
+
+          <button class="botao-principal" id="salvar">Salvar no cofre</button>
+          <button class="botao-secundario" id="cancelarEdicao" hidden>Cancelar edição</button>
+
+          <p class="feedback" id="feedback"></p>
+        </section>
+
+        <section class="card ideia">
+          <p class="caps vermelho">Regra de ouro</p>
+          <h3>Guardar primeiro muda o jogo.</h3>
+          <p>Quando o dinheiro entra, uma parte já vira cofre. O resto vira gasto permitido.</p>
+        </section>
+      </section>
+
+      <section class="tela" id="tela-mapa">
+        <section class="card">
+          <div class="titulo">
+            <div>
+              <p class="caps vermelho">Mapa do mês</p>
+              <h2>Calendário do cofre</h2>
+            </div>
+            <input id="seletorMes" type="month" />
+          </div>
+
+          <div class="semana">
+            <span>D</span>
+            <span>S</span>
+            <span>T</span>
+            <span>Q</span>
+            <span>Q</span>
+            <span>S</span>
+            <span>S</span>
+          </div>
+
+          <div class="calendario" id="calendario"></div>
+
+          <p class="texto-fraco">Quanto mais forte o dia, mais dinheiro foi guardado.</p>
+        </section>
+      </section>
+
+      <section class="tela" id="tela-historico">
+        <section class="card">
+          <div class="titulo">
+            <div>
+              <p class="caps vermelho">Todos os registros</p>
+              <h2>Histórico geral</h2>
+            </div>
+            <button class="botao-texto" id="exportarCSV">CSV</button>
+          </div>
+
+          <div class="filtros">
+            <input id="busca" placeholder="Buscar por tipo ou observação" />
+            <select id="filtro">
+              <option value="todos">Tudo</option>
+              <option value="mes">Mês atual</option>
+              <option value="hoje">Hoje</option>
+            </select>
+          </div>
+
+          <div class="lista" id="listaHistorico"></div>
+
+          <div class="vazio-msg" id="historicoVazio">
+            <strong>Sem registros.</strong>
+            <p>O primeiro abastecimento aparece aqui.</p>
+          </div>
+        </section>
+      </section>
+
+      <section class="tela" id="tela-metas">
+        <section class="card form">
+          <p class="caps vermelho">Metas</p>
+          <h2>Configurar controle</h2>
+
+          <label>
+            Meta mensal
+            <div class="campo-dinheiro">
+              <span>R$</span>
+              <input id="metaMensal" type="number" inputmode="decimal" min="1" step="0.01" />
+            </div>
+          </label>
+
+          <label>
+            Meta diária sugerida
+            <div class="campo-dinheiro azul">
+              <span>R$</span>
+              <input id="metaDiaria" type="number" inputmode="decimal" min="1" step="0.01" />
+            </div>
+          </label>
+
+          <button class="botao-principal" id="salvarMetas">Salvar metas</button>
+          <p class="feedback" id="feedbackMetas"></p>
+        </section>
+
+        <section class="card trofeu">
+          <p class="caps">Conquista atual</p>
+          <h3 id="tituloConquista">Cofre zerado</h3>
+          <p id="textoConquista">Comece hoje. O primeiro registro já muda o comportamento.</p>
+        </section>
+
+        <section class="card">
+          <div class="titulo">
+            <div>
+              <p class="caps vermelho">Backup</p>
+              <h3>Segurança dos dados</h3>
+            </div>
+          </div>
+
+          <div class="backup">
+            <button class="botao-secundario" id="exportarBackup">Exportar backup</button>
+
+            <label class="botao-secundario arquivo">
+              Importar backup
+              <input id="importarBackup" type="file" accept="application/json" hidden />
+            </label>
+
+            <button class="botao-secundario" id="copiarResumo">Copiar resumo</button>
+            <button class="botao-perigo" id="zerarApp">Zerar app</button>
+          </div>
+
+          <p class="texto-fraco">Os dados ficam salvos neste aparelho. O backup permite trocar de celular sem perder tudo.</p>
+        </section>
+      </section>
+    </main>
+
+    <nav class="abas">
+      <button class="aba ativa" data-aba="painel">
+        <span>🔥</span>
+        Painel
+      </button>
+
+      <button class="aba" data-aba="lancar">
+        <span>⛽</span>
+        Lançar
+      </button>
+
+      <button class="aba" data-aba="mapa">
+        <span>📆</span>
+        Mapa
+      </button>
+
+      <button class="aba" data-aba="historico">
+        <span>📋</span>
+        Histórico
+      </button>
+
+      <button class="aba" data-aba="metas">
+        <span>🎯</span>
+        Metas
+      </button>
+    </nav>
+
+    <dialog id="menu">
+      <div class="modal">
+        <h2>Cofre Nacional PRO</h2>
+        <p>Controle diário de dinheiro guardado. Visual forte, simples e feito para virar hábito.</p>
+        <button class="botao-secundario" id="dicaInstalar">Instalar no celular</button>
+        <br><br>
+        <button class="botao-principal" id="fecharMenu">Fechar</button>
+      </div>
+    </dialog>
+  </div>
+
+  <script>
+    const CHAVE = "cofre-nacional-pro-v1";
+
+    const $ = seletor => document.querySelector(seletor);
+    const $$ = seletor => [...document.querySelectorAll(seletor)];
+
+    const estadoPadrao = {
+      registros: [],
+      config: {
+        metaMensal: 1500,
+        metaDiaria: 50
+      }
+    };
+
+    let estado = carregarEstado();
+
+    function carregarEstado() {
+      try {
+        const salvo = JSON.parse(localStorage.getItem(CHAVE));
+
+        return {
+          ...estadoPadrao,
+          ...salvo,
+          config: {
+            ...estadoPadrao.config,
+            ...(salvo?.config || {})
+          },
+          registros: Array.isArray(salvo?.registros) ? salvo.registros : []
+        };
+      } catch {
+        return JSON.parse(JSON.stringify(estadoPadrao));
+      }
+    }
+
+    function salvarEstado() {
+      localStorage.setItem(CHAVE, JSON.stringify(estado));
+    }
+
+    function dinheiro(valor) {
+      return Number(valor || 0).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+
+    function numero(input) {
+      return Number(String(input.value || "0").replace(",", "."));
+    }
+
+    function hojeISO() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function dataLocal(iso) {
+      const [ano, mes, dia] = iso.split("-").map(Number);
+      return new Date(ano, mes - 1, dia);
+    }
+
+    function isoDaData(data) {
+      const ano = data.getFullYear();
+      const mes = String(data.getMonth() + 1).padStart(2, "0");
+      const dia = String(data.getDate()).padStart(2, "0");
+      return `${ano}-${mes}-${dia}`;
+    }
+
+    function chaveMes(data = new Date()) {
+      const ano = data.getFullYear();
+      const mes = String(data.getMonth() + 1).padStart(2, "0");
+      return `${ano}-${mes}`;
+    }
+
+    function mesmoMes(iso, data = new Date()) {
+      return iso.slice(0, 7) === chaveMes(data);
+    }
+
+    function formatarData(iso) {
+      return dataLocal(iso).toLocaleDateString("pt-BR");
+    }
+
+    function somar(lista, campo = "guardado") {
+      return lista.reduce((total, item) => total + Number(item[campo] || 0), 0);
+    }
+
+    function registrosDoDia(iso) {
+      return estado.registros.filter(r => r.data === iso);
+    }
+
+    function registrosDoMesAtual() {
+      return estado.registros.filter(r => mesmoMes(r.data));
+    }
+
+    function ordenarRegistros(lista = estado.registros) {
+      return [...lista].sort((a, b) => {
+        if (a.data === b.data) return b.criadoEm - a.criadoEm;
+        return b.data.localeCompare(a.data);
+      });
+    }
+
+    function totais() {
+      const hoje = hojeISO();
+      const listaHoje = registrosDoDia(hoje);
+      const listaMes = registrosDoMesAtual();
+
+      return {
+        hoje: somar(listaHoje),
+        mes: somar(listaMes),
+        geral: somar(estado.registros),
+        entradaHoje: somar(listaHoje, "entrada"),
+        entradaMes: somar(listaMes, "entrada")
+      };
+    }
+
+    function trocarAba(nome) {
+      $$(".aba").forEach(botao => {
+        botao.classList.toggle("ativa", botao.dataset.aba === nome);
+      });
+
+      $$(".tela").forEach(tela => {
+        tela.classList.remove("ativa");
+      });
+
+      $(`#tela-${nome}`).classList.add("ativa");
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+      if (nome === "mapa") renderizarCalendario();
+      if (nome === "historico") renderizarHistorico();
+    }
+
+    function renderizarTudo() {
+      const t = totais();
+      const meta = Number(estado.config.metaMensal || 1);
+      const percentual = Math.min(Math.round((t.mes / meta) * 100), 100);
+      const falta = Math.max(meta - t.mes, 0);
+
+      $("#hojeGuardado").textContent = dinheiro(t.hoje);
+      $("#mesGuardado").textContent = dinheiro(t.mes);
+      $("#totalGeral").textContent = dinheiro(t.geral);
+      $("#metaMensalTexto").textContent = dinheiro(meta);
+      $("#faltaMeta").textContent = dinheiro(falta);
+
+      $("#percentualMeta").textContent = `${percentual}%`;
+      $("#percentualRitmo").textContent = `${percentual}%`;
+      $("#nivelMeta").style.height = `${percentual}%`;
+      $("#barraMes").style.width = `${percentual}%`;
+
+      $("#metaMensal").value = estado.config.metaMensal;
+      $("#metaDiaria").value = estado.config.metaDiaria;
+
+      renderizarStatus(t, percentual);
+      renderizarAnalise(t, percentual);
+      renderizarGraficoSemana();
+      renderizarConquista(t, percentual);
+      renderizarHistorico();
+      renderizarCalendario();
+    }
+
+    function renderizarStatus(t, percentual) {
+      const aviso = $("#avisoStatus");
+      aviso.className = "aviso";
+
+      const ultimo = ordenarRegistros()[0];
+      const guardouHoje = t.hoje > 0;
+
+      if (percentual >= 100) {
+        aviso.classList.add("bom");
+        aviso.textContent = "🏆 Lacre azul: meta batida este mês.";
+        $("#frasePrincipal").textContent = "Meta batida. Agora é blindar o resultado.";
+        return;
+      }
+
+      if (!ultimo) {
+        aviso.textContent = "🧯 Controle iniciado. Primeiro abastecimento pendente.";
+        $("#frasePrincipal").textContent = "Abasteça primeiro. Gaste depois.";
+        return;
+      }
+
+      const diasSemGuardar = Math.floor((dataLocal(hojeISO()) - dataLocal(ultimo.data)) / 86400000);
+
+      if (diasSemGuardar >= 2) {
+        aviso.classList.add("ruim");
+        aviso.textContent = `🚨 Vazamento financeiro: ${diasSemGuardar} dias sem guardar.`;
+        $("#frasePrincipal").textContent = "Dinheiro sem comando vira fumaça.";
+        return;
+      }
+
+      if (guardouHoje) {
+        aviso.classList.add("bom");
+        aviso.textContent = "✅ Registro fechado hoje. Cofre abastecido.";
+        $("#frasePrincipal").textContent = "O dinheiro está obedecendo.";
+      } else {
+        aviso.textContent = "⚠️ Hoje ainda não teve abastecimento.";
+        $("#frasePrincipal").textContent = "Não deixe o dia passar em branco.";
+      }
+    }
+
+    function renderizarAnalise(t, percentual) {
+      const agora = new Date();
+      const diaAtual = agora.getDate();
+      const diasNoMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0).getDate();
+      const idealAteAgora = (estado.config.metaMensal / diasNoMes) * diaAtual;
+      const diferenca = t.mes - idealAteAgora;
+
+      if (t.mes <= 0) {
+        $("#analiseRitmo").textContent = "Registre o primeiro valor para o app calcular o ritmo.";
+        return;
+      }
+
+      const projecao = (t.mes / diaAtual) * diasNoMes;
+
+      if (percentual >= 100) {
+        $("#analiseRitmo").textContent = `Meta concluída. Projeção do mês: ${dinheiro(projecao)}.`;
+      } else if (diferenca >= 0) {
+        $("#analiseRitmo").textContent = `Ritmo acima do esperado. Projeção atual: ${dinheiro(projecao)}.`;
+      } else {
+        $("#analiseRitmo").textContent = `Ritmo abaixo da meta por ${dinheiro(Math.abs(diferenca))}. Projeção atual: ${dinheiro(projecao)}.`;
+      }
+    }
+
+    function renderizarGraficoSemana() {
+      const container = $("#graficoSemana");
+      container.innerHTML = "";
+
+      const metaDiaria = Number(estado.config.metaDiaria || 50);
+      const hoje = dataLocal(hojeISO());
+
+      for (let i = 6; i >= 0; i--) {
+        const data = new Date(hoje);
+        data.setDate(hoje.getDate() - i);
+
+        const iso = isoDaData(data);
+        const total = somar(registrosDoDia(iso));
+        const percentual = Math.min((total / metaDiaria) * 100, 100);
+        const nomeDia = data.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "");
+
+        const item = document.createElement("div");
+        item.className = "dia-grafico";
+        item.title = `${formatarData(iso)}: ${dinheiro(total)}`;
+
+        item.innerHTML = `
+          <div class="trilho">
+            <div class="preenchimento" style="height:${Math.max(percentual, total > 0 ? 8 : 0)}%"></div>
+          </div>
+          <span>${nomeDia}</span>
+        `;
+
+        container.appendChild(item);
+      }
+    }
+
+    function renderizarConquista(t, percentual) {
+      const titulo = $("#tituloConquista");
+      const texto = $("#textoConquista");
+      const sequencia = calcularSequencia();
+
+      if (percentual >= 100) {
+        titulo.textContent = "Lacre Azul conquistado";
+        texto.textContent = `Meta mensal batida com ${dinheiro(t.mes)} guardados.`;
+      } else if (sequencia >= 7) {
+        titulo.textContent = "Semana blindada";
+        texto.textContent = `${sequencia} dias seguidos guardando. Isso é hábito de gente disciplinada.`;
+      } else if (t.geral >= 1000) {
+        titulo.textContent = "Primeiro milhar protegido";
+        texto.textContent = `O cofre já acumulou ${dinheiro(t.geral)} no total.`;
+      } else if (t.mes > 0) {
+        titulo.textContent = "Controle ligado";
+        texto.textContent = `Este mês já tem ${dinheiro(t.mes)} protegido.`;
+      } else {
+        titulo.textContent = "Cofre zerado";
+        texto.textContent = "Comece hoje. O primeiro registro já muda o comportamento.";
+      }
+    }
+
+    function calcularSequencia() {
+      const diasComRegistro = new Set(
+        estado.registros
+          .filter(r => r.guardado > 0)
+          .map(r => r.data)
+      );
+
+      let sequencia = 0;
+      const cursor = dataLocal(hojeISO());
+
+      while (diasComRegistro.has(isoDaData(cursor))) {
+        sequencia++;
+        cursor.setDate(cursor.getDate() - 1);
+      }
+
+      return sequencia;
+    }
+
+    function renderizarHistorico() {
+      const lista = $("#listaHistorico");
+      const vazio = $("#historicoVazio");
+      const termo = ($("#busca")?.value || "").toLowerCase().trim();
+      const filtro = $("#filtro")?.value || "todos";
+
+      let registros = ordenarRegistros();
+
+      if (filtro === "mes") {
+        registros = registros.filter(r => mesmoMes(r.data));
+      }
+
+      if (filtro === "hoje") {
+        registros = registros.filter(r => r.data === hojeISO());
+      }
+
+      if (termo) {
+        registros = registros.filter(r => {
+          return `${r.tipo} ${r.obs}`.toLowerCase().includes(termo);
+        });
+      }
+
+      lista.innerHTML = "";
+
+      if (!registros.length) {
+        vazio.style.display = "block";
+        return;
+      }
+
+      vazio.style.display = "none";
+
+      for (const r of registros) {
+        const vazamento = Math.max(Number(r.entrada || 0) - Number(r.guardado || 0), 0);
+
+        const item = document.createElement("article");
+        item.className = "item";
+
+        item.innerHTML = `
+          <div>
+            <h3>${dinheiro(r.guardado)}</h3>
+            <p>${formatarData(r.data)} • ${escapar(r.tipo)}</p>
+            <p>${r.obs ? escapar(r.obs) : "Sem observação"}${r.entrada ? ` • entrou ${dinheiro(r.entrada)} • não guardado ${dinheiro(vazamento)}` : ""}</p>
+          </div>
+
+          <div class="acoes">
+            <button class="acao" data-editar="${r.id}" title="Editar">✎</button>
+            <button class="acao excluir" data-excluir="${r.id}" title="Excluir">×</button>
+          </div>
+        `;
+
+        lista.appendChild(item);
+      }
+
+      $$("[data-editar]").forEach(botao => {
+        botao.addEventListener("click", () => editarRegistro(botao.dataset.editar));
+      });
+
+      $$("[data-excluir]").forEach(botao => {
+        botao.addEventListener("click", () => excluirRegistro(botao.dataset.excluir));
+      });
+    }
+
+    function renderizarCalendario() {
+      const grid = $("#calendario");
+      if (!grid) return;
+
+      const seletor = $("#seletorMes");
+      const chave = seletor.value || chaveMes();
+
+      seletor.value = chave;
+
+      const [ano, mes] = chave.split("-").map(Number);
+      const primeiroDia = new Date(ano, mes - 1, 1);
+      const ultimoDia = new Date(ano, mes, 0);
+      const espacosAntes = primeiroDia.getDay();
+      const totalDias = ultimoDia.getDate();
+      const hoje = hojeISO();
+
+      const registrosDoMes = estado.registros.filter(r => r.data.slice(0, 7) === chave);
+      const maiorValor = Math.max(...registrosDoMes.map(r => r.guardado), estado.config.metaDiaria, 1);
+
+      grid.innerHTML = "";
+
+      for (let i = 0; i < espacosAntes; i++) {
+        const vazio = document.createElement("div");
+        vazio.className = "dia vazio";
+        grid.appendChild(vazio);
+      }
+
+      for (let dia = 1; dia <= totalDias; dia++) {
+        const iso = `${chave}-${String(dia).padStart(2, "0")}`;
+        const total = somar(registrosDoDia(iso));
+        const proporcao = total / maiorValor;
+
+        let nivel = 0;
+
+        if (total > 0) nivel = 1;
+        if (proporcao >= .35) nivel = 2;
+        if (proporcao >= .7) nivel = 3;
+        if (proporcao >= 1) nivel = 4;
+
+        const celula = document.createElement("div");
+        celula.className = `dia n${nivel}${iso === hoje ? " hoje" : ""}`;
+        celula.title = `${formatarData(iso)}: ${dinheiro(total)}`;
+
+        celula.innerHTML = `
+          <span class="num">${dia}</span>
+          <span class="valor">${total ? dinheiro(total).replace("R$", "").trim() : "—"}</span>
+        `;
+
+        grid.appendChild(celula);
+      }
+    }
+
+    function limparFormulario() {
+      $("#editandoId").value = "";
+      $("#tituloForm").textContent = "Novo abastecimento";
+      $("#valorGuardado").value = "";
+      $("#valorEntrada").value = "";
+      $("#tipoEntrada").value = "Salário";
+      $("#observacao").value = "";
+      $("#dataEntrada").value = hojeISO();
+      $("#cancelarEdicao").hidden = true;
+    }
+
+    function salvarRegistro() {
+      const guardado = numero($("#valorGuardado"));
+      const entrada = numero($("#valorEntrada"));
+      const tipo = $("#tipoEntrada").value;
+      const obs = $("#observacao").value.trim();
+      const data = $("#dataEntrada").value || hojeISO();
+      const editandoId = $("#editandoId").value;
+
+      if (!guardado || guardado <= 0) {
+        mostrarFeedback("#feedback", "Digite um valor guardado válido.", true);
+        return;
+      }
+
+      const registro = {
+        id: editandoId || criarId(),
+        guardado,
+        entrada: entrada > 0 ? entrada : 0,
+        tipo,
+        obs,
+        data,
+        criadoEm: editandoId
+          ? estado.registros.find(r => r.id === editandoId)?.criadoEm || Date.now()
+          : Date.now(),
+        atualizadoEm: Date.now()
+      };
+
+      if (editandoId) {
+        estado.registros = estado.registros.map(r => {
+          return r.id === editandoId ? registro : r;
+        });
+      } else {
+        estado.registros.push(registro);
+      }
+
+      salvarEstado();
+      renderizarTudo();
+
+      mostrarFeedback("#feedback", editandoId ? "Registro atualizado." : "Cofre abastecido com sucesso.");
+
+      setTimeout(() => {
+        limparFormulario();
+        trocarAba("painel");
+      }, 650);
+    }
+
+    function editarRegistro(id) {
+      const r = estado.registros.find(item => item.id === id);
+      if (!r) return;
+
+      $("#editandoId").value = r.id;
+      $("#tituloForm").textContent = "Editar abastecimento";
+      $("#valorGuardado").value = r.guardado;
+      $("#valorEntrada").value = r.entrada || "";
+      $("#tipoEntrada").value = r.tipo;
+      $("#observacao").value = r.obs || "";
+      $("#dataEntrada").value = r.data;
+      $("#cancelarEdicao").hidden = false;
+
+      trocarAba("lancar");
+    }
+
+    function excluirRegistro(id) {
+      const r = estado.registros.find(item => item.id === id);
+      if (!r) return;
+
+      const confirmar = confirm(`Excluir o registro de ${dinheiro(r.guardado)}?`);
+
+      if (!confirmar) return;
+
+      estado.registros = estado.registros.filter(item => item.id !== id);
+      salvarEstado();
+      renderizarTudo();
+    }
+
+    function criarId() {
+      if (crypto && crypto.randomUUID) {
+        return crypto.randomUUID();
+      }
+
+      return String(Date.now()) + Math.random().toString(16).slice(2);
+    }
+
+    function escapar(texto = "") {
+      return String(texto).replace(/[&<>"']/g, caractere => {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        }[caractere];
+      });
+    }
+
+    function mostrarFeedback(seletor, mensagem, erro = false) {
+      const el = $(seletor);
+      el.textContent = mensagem;
+      el.style.color = erro ? "var(--vermelho)" : "var(--verde)";
+    }
+
+    function exportarCSV() {
+      if (!estado.registros.length) {
+        alert("Não há registros para exportar.");
+        return;
+      }
+
+      const linhas = [
+        ["data", "valor_guardado", "valor_entrada", "tipo", "observacao"],
+        ...ordenarRegistros().map(r => [
+          r.data,
+          String(r.guardado).replace(".", ","),
+          String(r.entrada || 0).replace(".", ","),
+          r.tipo,
+          r.obs || ""
+        ])
+      ];
+
+      const csv = linhas
+        .map(linha => linha.map(campo => `"${String(campo).replace(/"/g, '""')}"`).join(";"))
+        .join("\n");
+
+      baixarArquivo(csv, "cofre-nacional-historico.csv", "text/csv;charset=utf-8");
+    }
+
+    function exportarBackup() {
+      baixarArquivo(
+        JSON.stringify(estado, null, 2),
+        "backup-cofre-nacional.json",
+        "application/json"
+      );
+    }
+
+    function baixarArquivo(conteudo, nome, tipo) {
+      const blob = new Blob([conteudo], { type: tipo });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+
+      a.href = url;
+      a.download = nome;
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+    function importarBackup(arquivo) {
+      const leitor = new FileReader();
+
+      leitor.onload = () => {
+        try {
+          const importado = JSON.parse(leitor.result);
+
+          if (!Array.isArray(importado.registros) || !importado.config) {
+            throw new Error("Formato inválido");
+          }
+
+          estado = {
+            ...estadoPadrao,
+            ...importado,
+            config: {
+              ...estadoPadrao.config,
+              ...importado.config
+            }
+          };
+
+          salvarEstado();
+          renderizarTudo();
+
+          alert("Backup importado com sucesso.");
+        } catch {
+          alert("Arquivo de backup inválido.");
+        }
+      };
+
+      leitor.readAsText(arquivo);
+    }
+
+    async function copiarResumo() {
+      const t = totais();
+      const meta = estado.config.metaMensal;
+      const percentual = Math.min(Math.round((t.mes / meta) * 100), 100);
+
+      const resumo = [
+        "RESUMO DO COFRE NACIONAL",
+        `Hoje guardado: ${dinheiro(t.hoje)}`,
+        `Total do mês: ${dinheiro(t.mes)}`,
+        `Meta mensal: ${dinheiro(meta)}`,
+        `Progresso: ${percentual}%`,
+        `Total geral: ${dinheiro(t.geral)}`
+      ].join("\n");
+
+      try {
+        await navigator.clipboard.writeText(resumo);
+        alert("Resumo copiado.");
+      } catch {
+        prompt("Copie o resumo:", resumo);
+      }
+    }
+
+    function configurarEventos() {
+      $$(".aba").forEach(botao => {
+        botao.addEventListener("click", () => {
+          trocarAba(botao.dataset.aba);
+        });
+      });
+
+      $$("[data-ir]").forEach(botao => {
+        botao.addEventListener("click", () => {
+          trocarAba(botao.dataset.ir);
+        });
+      });
+
+      $("#salvar").addEventListener("click", salvarRegistro);
+
+      $("#cancelarEdicao").addEventListener("click", () => {
+        limparFormulario();
+        mostrarFeedback("#feedback", "Edição cancelada.");
+      });
+
+      $$(".rapidos button").forEach(botao => {
+        botao.addEventListener("click", () => {
+          $("#valorGuardado").value = botao.dataset.valor;
+          $("#valorGuardado").focus();
+        });
+      });
+
+      $("#salvarMetas").addEventListener("click", () => {
+        const metaMensal = numero($("#metaMensal"));
+        const metaDiaria = numero($("#metaDiaria"));
+
+        if (!metaMensal || metaMensal <= 0 || !metaDiaria || metaDiaria <= 0) {
+          mostrarFeedback("#feedbackMetas", "Preencha metas válidas.", true);
+          return;
+        }
+
+        estado.config.metaMensal = metaMensal;
+        estado.config.metaDiaria = metaDiaria;
+
+        salvarEstado();
+        renderizarTudo();
+
+        mostrarFeedback("#feedbackMetas", "Metas salvas.");
+      });
+
+      $("#busca").addEventListener("input", renderizarHistorico);
+      $("#filtro").addEventListener("change", renderizarHistorico);
+      $("#seletorMes").addEventListener("change", renderizarCalendario);
+
+      $("#exportarCSV").addEventListener("click", exportarCSV);
+      $("#exportarBackup").addEventListener("click", exportarBackup);
+
+      $("#importarBackup").addEventListener("change", evento => {
+        const arquivo = evento.target.files?.[0];
+
+        if (arquivo) {
+          importarBackup(arquivo);
+        }
+
+        evento.target.value = "";
+      });
+
+      $("#copiarResumo").addEventListener("click", copiarResumo);
+
+      $("#zerarApp").addEventListener("click", () => {
+        const confirmar = confirm("Isso vai apagar todos os registros e metas. Tem certeza?");
+
+        if (!confirmar) return;
+
+        estado = JSON.parse(JSON.stringify(estadoPadrao));
+
+        salvarEstado();
+        limparFormulario();
+        renderizarTudo();
+
+        alert("App zerado.");
+      });
+
+      $("#abrirMenu").addEventListener("click", () => {
+        $("#menu").showModal();
+      });
+
+      $("#fecharMenu").addEventListener("click", () => {
+        $("#menu").close();
+      });
+
+      $("#dicaInstalar").addEventListener("click", () => {
+        alert("No celular: abra o link do GitHub Pages no navegador e escolha “Adicionar à Tela de Início”.");
+      });
+    }
+
+    $("#dataEntrada").value = hojeISO();
+    $("#seletorMes").value = chaveMes();
+
+    configurarEventos();
+    renderizarTudo();
+  </script>
+</body>
+</html>
